@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HA Translate</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+
+    <video id="hyperplayer" class="hyperaudio-player" src="https://lab.hyperaud.io/mozfest2021/videos/lance-weiler-interview-final.mp4" type="audio/mp4" controls>
+      <track src="" kind="subtitles" srclang="es" label="Español" default/>
+      <track src="https://lab.hyperaud.io/mozfest2021/interviews/lance_weiler/lance-weiler-interview-en.vtt" kind="subtitles" srclang="en" label="English" />
+    </video>
+
+    <div class="caption">
+      <button class="play" onclick="seekTo(this)">view</button>
+      <input class="start" value="00:00:02.700"> --> <input class="end" value="00:00:05.439">
+      <br/>
+      <select name="speaker" class="speaker">
+        <option value="Narrator" selected>Narrator</option>
+        <option value="Douglas Arellanes">Douglas Arellanes</option>
+        <option value="Lance Weiller">Lance Weiller</option>
+      </select>
+      <br/>
+      <input class="line1" oninput="resize(this)" value="Nos encontramos en un momento de"><br/>
+      <input class="line2" oninput="resize(this)" value="extrema incertidumbre.">
+      <br/>
+      <button class="add" onclick="deleteCaption(this)">delete</button><button class="add" onclick="addCaption(this)">add</button>
+    </div>
+
+    <div class="caption">
+      <button class="play" onclick="seekTo(this)">view</button>
+      <input class="start" value="00:00:06.270"> --> <input class="end" value="00:00:09.849">
+      <br/>
+      <select name="speaker" class="speaker">
+        <option value="Narrator" selected>Narrator</option>
+        <option value="Douglas Arellanes">Douglas Arellanes</option>
+        <option value="Lance Weiller">Lance Weiller</option>
+      </select>
+      <br/>
+      <input class="line1" oninput="resize(this)" value="La desinformación alimentada por fake"><br/>
+      <input class="line2" oninput="resize(this)" value="news y deepfakes amenaza">
+      <br/>
+      <button class="add" onclick="deleteCaption(this)">delete</button><button class="add" onclick="addCaption(this)">add</button>
+    </div>
+
+    <div class="caption">
+      <button class="play" onclick="seekTo(this)">view</button>
+      <input class="start" value="00:00:09.850"> --> <input class="end" value="00:00:11.529">
+      <br/>
+      <select name="speaker" class="speaker">
+        <option value="Narrator" selected>Narrator</option>
+        <option value="Douglas Arellanes">Douglas Arellanes</option>
+        <option value="Lance Weiller">Lance Weiller</option>
+      </select>
+      <br/>
+      <input class="line1" oninput="resize(this)" value="los cimientos de nuestra democracia."><br/>
+      <input class="line2" oninput="resize(this)" value=" ">
+      <br/>
+      <button class="add" onclick="deleteCaption(this)">delete</button><button class="add" onclick="addCaption(this)">add</button>
+    </div>
+
+    <div class="caption">
+      <button class="play" onclick="seekTo(this)">view</button>
+      <input class="start" value="00:00:12.790"> --> <input class="end" value="00:00:16.280">
+      <br/>
+      <select name="speaker" class="speaker">
+        <option value="Narrator" selected>Narrator</option>
+        <option value="Douglas Arellanes">Douglas Arellanes</option>
+        <option value="Lance Weiller">Lance Weiller</option>
+      </select>
+      <br/>
+      <input class="line1" oninput="resize(this)" value="En muchos sentidos, parece que"><br/>
+      <input class="line2" oninput="resize(this)" value="vivimos en un episodio de Black Mirror,">
+      <br/>
+      <button class="add" onclick="deleteCaption(this)">delete</button><button class="add" onclick="addCaption(this)">add</button>
+    </div>
+
+    <div class="caption">
+      <button class="play" onclick="seekTo(this)">view</button>
+      <input class="start" value="00:00:17.090"> --> <input class="end" value="00:00:20.560">
+      <br/>
+      <select name="speaker" class="speaker">
+        <option value="Narrator" selected>Narrator</option>
+        <option value="Douglas Arellanes">Douglas Arellanes</option>
+        <option value="Lance Weiller">Lance Weiller</option>
+      </select>
+      <br/>
+      <input class="line1" oninput="resize(this)" value="que el futuro es distópico y no hay"><br/>
+      <input class="line2" oninput="resize(this)" value="nada que podamos hacer al respecto.">
+      <br/>
+      <button class="add" onclick="deleteCaption(this)">delete</button><button class="add" onclick="addCaption(this)">add</button>
+    </div>
+
+    <div class="caption">
+      <button class="play" onclick="seekTo(this)">view</button>
+      <input class="start" value="00:00:21.490"> --> <input class="end" value="00:00:25.020">
+      <br/>
+      <select name="speaker" class="speaker">
+        <option value="Narrator" selected>Narrator</option>
+        <option value="Douglas Arellanes">Douglas Arellanes</option>
+        <option value="Lance Weiller">Lance Weiller</option>
+      </select>
+      <br/>
+      <input class="line1" oninput="resize(this)" value="Pero, ¿y si pudiéramos utilizar las"><br/>
+      <input class="line2" oninput="resize(this)" value="visiones del futuro como una oportunidad para informar,">
+      <br/>
+      <button class="add" onclick="deleteCaption(this)">delete</button><button class="add" onclick="addCaption(this)">add</button>
+    </div>
+
+    <div class="caption">
+      <button class="play" onclick="seekTo(this)">view</button>
+      <input class="start" value="00:00:25.021"> --> <input class="end" value="00:00:27.820">
+      <br/>
+      <select name="speaker" class="speaker">
+        <option value="Narrator" selected>Narrator</option>
+        <option value="Douglas Arellanes">Douglas Arellanes</option>
+        <option value="Lance Weiller">Lance Weiller</option>
+      </select>
+      <br/>
+      <input class="line1" oninput="resize(this)" value="inspirar y empoderar a los"><br/>
+      <input class="line2" oninput="resize(this)" value="ciudadanos?">
+      <br/>
+      <button class="add" onclick="deleteCaption(this)">delete</button><button class="add" onclick="addCaption(this)">add</button>
+    </div>
+
+    <div class="caption">
+      <button class="play" onclick="seekTo(this)">view</button>
+      <input class="start" value="00:00:28.570"> --> <input class="end" value="00:00:32.039">
+      <br/>
+      <select name="speaker" class="speaker">
+        <option value="Narrator" selected>Narrator</option>
+        <option value="Douglas Arellanes">Douglas Arellanes</option>
+        <option value="Lance Weiller">Lance Weiller</option>
+      </select>
+      <br/>
+      <input class="line1" oninput="resize(this)" value="Project Immerse es una iniciativa de"><br/>
+      <input class="line2" oninput="resize(this)" value="alfabetización digital que toma">
+      <br/>
+      <button class="add" onclick="deleteCaption(this)">delete</button><button class="add" onclick="addCaption(this)">add</button>
+    </div>
+
+    <div class="caption">
+      <button class="play" onclick="seekTo(this)">view</button>
+      <input class="start" value="00:00:32.040"> --> <input class="end" value="00:00:32.549">
+      <br/>
+      <select name="speaker" class="speaker">
+        <option value="Narrator" selected>Narrator</option>
+        <option value="Douglas Arellanes">Douglas Arellanes</option>
+        <option value="Lance Weiller">Lance Weiller</option>
+      </select>
+      <br/>
+      <input class="line1" oninput="resize(this)" value="la forma de una serie de antología"><br/>
+      <input class="line2" oninput="resize(this)" value="inmersiva.">
+      <br/>
+      <button class="add" onclick="deleteCaption(this)">delete</button><button class="add" onclick="addCaption(this)">add</button>
+    </div>
+
+    <div class="caption">
+      <button class="play" onclick="seekTo(this)">view</button>
+      <input class="start" value="00:00:35.150"> --> <input class="end" value="00:00:38.739">
+      <br/>
+      <select name="speaker" class="speaker">
+        <option value="Narrator" selected>Narrator</option>
+        <option value="Douglas Arellanes">Douglas Arellanes</option>
+        <option value="Lance Weiller">Lance Weiller</option>
+      </select>
+      <br/>
+      <input class="line1" oninput="resize(this)" value="Contada a través de herramientas"><br/>
+      <input class="line2" oninput="resize(this)" value="omnipresentes basadas en la">
+      <br/>
+      <button class="add" onclick="deleteCaption(this)">delete</button><button class="add" onclick="addCaption(this)">add</button>
+    </div>
+
+    <div class="caption">
+      <button class="play" onclick="seekTo(this)">view</button>
+      <input class="start" value="00:00:38.810"> --> <input class="end" value="00:00:42.190">
+      <br/>
+      <select name="speaker" class="speaker">
+        <option value="Narrator" selected>Narrator</option>
+        <option value="Douglas Arellanes">Douglas Arellanes</option>
+        <option value="Lance Weiller">Lance Weiller</option>
+      </select>
+      <br/>
+      <input class="line1" oninput="resize(this)" value="Web, la experiencia lleva a los"><br/>
+      <input class="line2" oninput="resize(this)" value="participantes a una">
+      <br/>
+      <button class="add" onclick="deleteCaption(this)">delete</button><button class="add" onclick="addCaption(this)">add</button>
+    </div>
+
+    <div class="caption">
+      <button class="play" onclick="seekTo(this)">view</button>
+      <input class="start" value="00:00:42.191"> --> <input class="end" value="00:00:46.160">
+      <br/>
+      <select name="speaker" class="speaker">
+        <option value="Narrator" selected>Narrator</option>
+        <option value="Douglas Arellanes">Douglas Arellanes</option>
+        <option value="Lance Weiller">Lance Weiller</option>
+      </select>
+      <br/>
+      <input class="line1" oninput="resize(this)" value="serie de historias jugables diseñadas"><br/>
+      <input class="line2" oninput="resize(this)" value="para desmitificar la tecnología detrás de las fake news y deepfakes.">
+      <br/>
+      <button class="add" onclick="deleteCaption(this)">delete</button><button class="add" onclick="addCaption(this)">add</button>
+    </div>
+
+    <div class="caption">
+      <button class="play" onclick="seekTo(this)">view</button>
+      <input class="start" value="00:00:48.940"> --> <input class="end" value="00:00:50.037">
+      <br/>
+      <select name="speaker" class="speaker">
+        <option value="Narrator">Narrator</option>
+        <option value="Douglas Arellanes" selected>Douglas Arellanes</option>
+        <option value="Lance Weiller">Lance Weiller</option>
+      </select>
+      <br/>
+      <input class="line1" oninput="resize(this)" value="Estamos aquí con Lance Weiler."><br/>
+      <input class="line2" oninput="resize(this)" value=" ">
+      <br/>
+      <button class="add" onclick="deleteCaption(this)">delete</button><button class="add" onclick="addCaption(this)">add</button>
+    </div>
+
+    <div class="caption">
+      <button class="play" onclick="seekTo(this)">view</button>
+      <input class="start" value="00:00:50.809"> --> <input class="end" value="00:00:57.950">
+      <br/>
+      <select name="speaker" class="speaker">
+        <option value="Narrator">Narrator</option>
+        <option value="Douglas Arellanes" selected>Douglas Arellanes</option>
+        <option value="Lance Weiller">Lance Weiller</option>
+      </select>
+      <br/>
+      <input class="line1" oninput="resize(this)" value="Lance es un innovador desde hace"><br/>
+      <input class="line2" oninput="resize(this)" value="mucho tiempo en el área de la narración interactiva.">
+      <br/>
+      <button class="add" onclick="deleteCaption(this)">delete</button><button class="add" onclick="addCaption(this)">add</button>
+    </div>
+
+    <div class="caption">
+      <button class="play" onclick="seekTo(this)">view</button>
+      <input class="start" value="00:00:58.930"> --> <input class="end" value="00:01:00.519">
+      <br/>
+      <select name="speaker" class="speaker">
+        <option value="Narrator">Narrator</option>
+        <option value="Douglas Arellanes" selected>Douglas Arellanes</option>
+        <option value="Lance Weiller">Lance Weiller</option>
+      </select>
+      <br/>
+      <input class="line1" oninput="resize(this)" value="Lance, estás basado en Nueva York,"><br/>
+      <input class="line2" oninput="resize(this)" value="¿verdad?">
+      <br/>
+      <button class="add" onclick="deleteCaption(this)">delete</button><button class="add" onclick="addCaption(this)">add</button>
+    </div>
+
+    <div class="caption">
+      <button class="play" onclick="seekTo(this)">view</button>
+      <input class="start" value="00:01:01.870"> --> <input class="end" value="00:01:05.220">
+      <br/>
+      <select name="speaker" class="speaker">
+        <option value="Narrator">Narrator</option>
+        <option value="Douglas Arellanes">Douglas Arellanes</option>
+        <option value="Lance Weiller" selected>Lance Weiller</option>
+      </select>
+      <br/>
+      <input class="line1" oninput="resize(this)" value="Sí, estoy en la Universidad de"><br/>
+      <input class="line2" oninput="resize(this)" value="Columbia en la ciudad de aquí.">
+      <br/>
+      <button class="add" onclick="deleteCaption(this)">delete</button><button class="add" onclick="addCaption(this)">add</button>
+    </div>
+
+    <div class="caption" id="caption-templ" style="display:none">
+      <button class="play" onclick="seekTo(this)">view</button>
+      <input class="start" value=""> --> <input class="end" value="">
+      <br/>
+      <select name="speaker" class="speaker">
+        <option value="Narrator">Narrator</option>
+        <option value="Douglas Arellanes">Douglas Arellanes</option>
+        <option value="Lance Weiller">Lance Weiller</option>
+      </select>
+      <br/>
+      <input class="line1" oninput="resize(this)" value=" "><br/>
+      <input class="line2" oninput="resize(this)" value=" ">
+      <br/>
+      <button class="add" onclick="deleteCaption(this)">delete</button><button class="add" onclick="addCaption(this)">add</button>
+    </div>
+    
+    <script>
+
+      $ = document.querySelector.bind(document);
+      $$ = document.querySelectorAll.bind(document);
+
+      let line1s = $$('.line1'); 
+      let line2s = $$('.line2'); 
+
+      line1s.forEach(function(elem) {
+        resize(elem);
+      });
+
+      line2s.forEach(function(elem) {
+        resize(elem);
+      });
+
+      function resize(elem) {
+        elem.style.width = elem.value.length + "ch";
+      }
+
+      function seekTo(elem) {
+        //console.dir(this.nextElementSibling.value);
+        $('video').currentTime = countSeconds(elem.nextElementSibling.value);
+      }
+
+      function addCaption(elem) {
+        console.dir(elem);
+        let captionTempl = $('#caption-templ').cloneNode(true);
+        captionTempl.style.display = "block";
+        console.dir(captionTempl);
+        elem.parentElement.insertAdjacentElement('afterend', captionTempl);
+      }
+
+      function deleteCaption(elem) {
+        elem.parentNode.parentNode.removeChild(elem.parentNode);
+        console.dir(elem);
+      }
+
+      setInterval(function(){ 
+        let captionsVtt = "WEBVTT\n\n";
+        let starts = $$('.start');
+        let ends = $$('.end');
+
+        starts.forEach(function(elem, index) {
+          captionsVtt += starts[index].value + " --> " + ends[index].value + "\n" + line1s[index].value + "\n" + line2s[index].value + "\n\n";
+        });
+
+        console.log(captionsVtt);
+
+        $('track').setAttribute("src", 'data:text/vtt,'+encodeURIComponent(captionsVtt));
+      }, 500);
+
+      const countSeconds = (str) => {
+        const [hh = '0', mm = '0', ss = '0'] = (str || '0:0:0').split(':');
+        const hour = parseInt(hh, 10) || 0;
+        const minute = parseInt(mm, 10) || 0;
+        const second = parseFloat(ss);
+        return (hour*3600) + (minute*60) + (second);
+      };
+
+      //console.log(countSeconds("00:01:01.870"));
+
+      
+    </script>
+  </body>
+  </html>

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HA Translate</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="translate.js"></script>
+  </head>
+  <body>
+    <div class="input-screen">
+      <table>
+        <th width="50%">
+          Original
+        </th>
+        <th width="50%">
+          Translation
+        </th>
+        <tr>
+          <td>
+            <textarea class="original-hypertext" placeholder="Paste original transcript HTML here."></textarea>
+          </td>
+          <td>
+            <textarea class="translated-text" placeholder="Paste translated text here (sentences should correspond)."></textarea>
+          </td>
+        </tr>
+      </table>  
+      <p><button class="prepare-data">prepare</button></p>
+    </div>
+    <div class="translate-screen">
+      <table class="translate-table">
+        <th width="50%">
+          Original
+        </th>
+        <th width="50%">
+          Translation
+        </th>
+      </table>
+      <button class="generate-captions">Generate Captions</button>
+    </div>
+
+    <div class="captions-screen" style="display:none">
+      <video id="hyperplayer" class="hyperaudio-player" src="https://lab.hyperaud.io/mozfest2021/videos/lance-weiler-interview-final.mp4" type="audio/mp4" controls preload="metadata">
+      </video>
+    </div>
+
+    <div style="display:none" id="hypertranscript" class="hyperaudio-transcript">
+    </div>
+
+    <div class="caption" id="caption-templ" style="display:none">
+      <button class="play" onclick="playClip(this)">play clip</button>
+      <div>
+        <button class="play-start" onclick="seekTo(this)">start</button><input class="start" value="">
+      </div>
+      <div>
+        <button class="play-end" onclick="seekTo(this)">end</button><input class="end" value="">
+      </div>
+      <div>
+        <input class="line1" oninput="resize(this)" value=" ">
+      </div>
+      <div>
+        <input class="line2" oninput="resize(this)" value=" ">
+      </div>
+      <div>
+        <button class="add-caption" onclick="addCaption(this)">insert ⇩</button><button class="merge-caption" onclick="mergeCaption(this)">merge ⇕</button><button class="delete-caption" onclick="deleteCaption(this)">delete 🗑</button>
+      </div>
+    </div>
+
+    <div>
+      <a class="sub-download" id="download-vtt" href="" download="hyperaudio.vtt">Download WebVTT ⬇</a>
+      <a class="sub-download" id="download-srt" href="" download="hyperaudio.srt">Download SRT ⬇</a>
+    </div>
+
+    <table class="sentence" id="sentence-templ" style="display:none">
+      <tr>
+        <td><span class="orig-text"></span></td>
+        <td>
+          <textarea class="trans-text"></textarea>
+        </td>
+      </tr>
+    </table>
+
+    <script>
+      $ = document.querySelector.bind(document);
+      $$ = document.querySelectorAll.bind(document);
+
+
+      $('.prepare-data').addEventListener("click", prepareData);
+
+      function prepareData() {
+        let hypertext = $('.original-hypertext');
+        let transtext = $('.translated-text');
+        
+        $('.hyperaudio-transcript').innerHTML = hypertext.value;
+
+        let originalText = $('.hyperaudio-transcript').innerText;
+        let translatedText = transtext.value;
+
+        originalSentences = originalText.replace(/([.?!])\s*(?=[A-Z])/g, "$1|").split("|");
+        translatedSentences = translatedText.replace(/([.?!])\s*(?=[A-Z])/g, "$1|").split("|");
+
+        originalSentences.forEach((sentence, index) => {
+
+          let sentenceRow = $('#sentence-templ').querySelector('tr').cloneNode(true);
+          //console.dir(sentenceRow);
+          sentenceRow.querySelector('.orig-text').innerText = sentence;
+          sentenceRow.querySelector('.trans-text').value = translatedSentences[index];
+          $('.translate-table').appendChild(sentenceRow);
+
+        });
+
+        $('.input-screen').style.display = "none";
+        $('.translate-screen').style.display = "block";
+        
+      }
+
+
+      $('.generate-captions').addEventListener("click", generateCaptions);
+      let maxLineLength = 37;
+      let minLineLength = 21;
+      
+      var video = document.getElementById("hyperplayer"), track;
+
+      function addPopulatedCaption(elem, start, end, line1, line2) {
+        let captionTempl = $('#caption-templ').cloneNode(true);
+        captionTempl.style.display = "block";
+        captionTempl.querySelector('.start').value = start;
+        captionTempl.querySelector('.end').value = end;
+        captionTempl.querySelector('.line1').value = line1;
+        captionTempl.querySelector('.line2').value = line2;
+        elem.insertAdjacentElement('afterend', captionTempl);
+        return(captionTempl);
+      }
+
+      function insertLineBreak(str) {
+        var newStr = "";
+        var split = false;
+        str = str.trim();
+        if (str.length > maxLineLength) {
+          var words = str.split(" ");
+          words.forEach(function(word){
+            if ((newStr + word).length > maxLineLength && split === false) {
+              newStr += "\n";
+              split = true;
+            }
+            newStr += word + " ";
+          });
+          return newStr.trim();
+        } else {
+          return str;
+        }
+      }
+
+      function resize(elem) {
+        elem.style.width = elem.value.length + "ch";
+        if (elem.value.length < 36) {
+          elem.style.width = "36ch";
+        }
+      }
+
+      function seekTo(elem) {
+        let seekTime = countSeconds(elem.nextElementSibling.value);
+        if (elem.className == "play-end") {
+          seekTime -= 0.1;
+        }
+        $('video').currentTime = seekTime;
+      }
+
+      function playClip(elem) {
+
+        let startTime = countSeconds(elem.parentElement.querySelector('.start').value);
+        let endTime = countSeconds(elem.parentElement.querySelector('.end').value);
+        let duration = endTime - startTime;
+
+        $('video').currentTime = startTime;
+        $('video').play();
+
+        setTimeout(() => {
+          $('video').pause();
+        }, duration*1000);
+
+      }
+
+      function generateCaptions(){
+        let trans1 = translate();
+        let originalSentences = [];
+        let translatedSentences = [];
+
+        let originalSentence = $$('.orig-text');
+        let translatedSentence = $$('.trans-text');
+
+        originalSentence.forEach(function(elem) {
+          originalSentences.push(elem.innerText);
+        });
+
+        translatedSentence.forEach(function(elem) {
+          translatedSentences.push(elem.value);
+        });
+
+        //console.log(originalSentences);
+        //console.log(translatedSentences);
+
+        let transCaptionArray = trans1.init("hypertranscript", maxLineLength , minLineLength, originalSentences, translatedSentences); // transcript Id, player Id, max chars, min chars for caption line
+
+
+        let lastElement = $('.hyperaudio-player');
+
+        transCaptionArray.forEach(function(caption) {
+          let captionText = insertLineBreak(caption.text);
+          lastElement = addPopulatedCaption(lastElement, caption.start, caption.stop, captionText.split("\n")[0], blankIfUndefined(captionText.split("\n")[1]));
+        });
+
+        let line1s = $$('.line1'); 
+        let line2s = $$('.line2'); 
+
+        line1s.forEach(function(elem) {
+          resize(elem);
+        });
+
+        line2s.forEach(function(elem) {
+          resize(elem);
+        });
+
+        $('.translate-screen').style.display = "none";
+        $('.captions-screen').style.display = "block";
+
+        let starts = $$('.start');
+        let ends = $$('.end'); 
+
+        track = video.addTextTrack("captions", "Español", "es");
+        track.mode = "showing";
+
+        starts.forEach(function(elem, index) {
+          console.log("caption "+index);
+          track.addCue(new VTTCue(countSeconds(starts[index].value), countSeconds(ends[index].value), line1s[index].value + "\n" + line2s[index].value));
+        });
+
+        //console.dir(track);
+        
+      };
+
+      function addCaption(elem) {
+        let captionTempl = $('#caption-templ').cloneNode(true);
+        captionTempl.getElementsByClassName('line1')[0].value = "";
+        captionTempl.getElementsByClassName('line2')[0].value = "";
+        captionTempl.getElementsByClassName('start')[0].value = "00:00:00.000";
+        captionTempl.getElementsByClassName('end')[0].value = "00:00:00.000";
+        captionTempl.style.display = "block";
+        elem.parentElement.parentNode.insertAdjacentElement('afterend', captionTempl);
+      }
+
+      function deleteCaption(elem) {
+        let thisCaption = elem.parentNode.parentNode;
+        thisCaption.parentNode.removeChild(thisCaption);
+        console.dir(elem);
+      }
+
+      function mergeCaption(elem) {
+        let thisCaption = elem.parentNode.parentNode;
+        let belowCaption = thisCaption.nextElementSibling;
+
+        thisCaption.querySelector('.end').value = belowCaption.querySelector('.end').value;
+        thisCaption.querySelector('.line2').value +=  
+          belowCaption.querySelector('.line1').value.toString() + 
+          belowCaption.querySelector('.line2').value.toString();
+
+        belowCaption.parentNode.removeChild(belowCaption);
+
+        resize(thisCaption.querySelector('.line2'));
+
+      }
+
+      function generateDownloadCaptions() {
+
+        let vttCaptions = "WEBVTT\n\n";
+        let srtCaptions = "";
+
+        $$('.caption').forEach((caption, index) => {
+          if (caption.querySelector('.start').value.length > 0){
+            vttCaptions += caption.querySelector('.start').value + " --> " + caption.querySelector('.end').value + "\n";
+            vttCaptions += caption.querySelector('.line1').value + "\n";
+            if (caption.querySelector('.line2').value.length > 0) {
+              vttCaptions += caption.querySelector('.line2').value + "\n";
+            }
+            vttCaptions += "\n";
+
+            srtCaptions += (index + 1) + "\n";
+            srtCaptions += convertTimecodeToSrt(caption.querySelector('.start').value) + " --> " + convertTimecodeToSrt(caption.querySelector('.end').value) + "\n";
+            srtCaptions += caption.querySelector('.line1').value + "\n";
+            if (caption.querySelector('.line2').value.length > 0) {
+              srtCaptions += caption.querySelector('.line2').value + "\n";
+            }
+            srtCaptions += "\n";
+          }
+        });
+
+        $('#download-vtt').setAttribute('href', "data:text/vtt,"+encodeURIComponent(vttCaptions));
+        $('#download-srt').setAttribute('href', "data:text/srt,"+encodeURIComponent(srtCaptions));
+
+      };
+
+      function blankIfUndefined(str) {
+        if (str == null || str == undefined || typeof str == 'undefined'){
+          return "";
+        } else {
+          return str;
+        }
+      }
+
+      function convertTimecodeToSrt(timecode) {
+        //the same as VTT format but milliseconds separated by a comma
+        return timecode.substring(0,8) + "," + timecode.substring(9,12);
+      }
+
+      setInterval(function(){ 
+        if (track) {
+          let starts = $$('.start');
+          let ends = $$('.end');
+
+          let line1s = $$('.line1'); 
+          let line2s = $$('.line2'); 
+
+          // there has to be a better way to reset - track.cues = null did not work for me
+
+          track.mode = "hidden";
+          video.textTracks = null;
+
+          track = video.addTextTrack("captions", "Español", "es");
+          track.mode = "showing";
+
+          starts.forEach(function(elem, index) {
+            track.addCue(new VTTCue(countSeconds(starts[index].value), countSeconds(ends[index].value), line1s[index].value + "\n" + line2s[index].value));
+          });
+
+          generateDownloadCaptions();
+        }
+      }, 500);
+
+      const countSeconds = (str) => {
+        const [hh = '0', mm = '0', ss = '0'] = (str || '0:0:0').split(':');
+        const hour = parseInt(hh, 10) || 0;
+        const minute = parseInt(mm, 10) || 0;
+        const second = parseFloat(ss);
+        return (hour*3600) + (minute*60) + (second);
+      };
+      
+    </script>
+  </body>
+</html>
