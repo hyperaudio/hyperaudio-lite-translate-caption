@@ -261,14 +261,12 @@
         let belowCaption = thisCaption.nextElementSibling;
 
         thisCaption.querySelector('.end').value = belowCaption.querySelector('.end').value;
-        thisCaption.querySelector('.line2').value +=  
-          belowCaption.querySelector('.line1').value.toString() + 
-          belowCaption.querySelector('.line2').value.toString();
+        thisCaption.querySelector('.line2').value += 
+          ` ${belowCaption.querySelector('.line1').value.toString()} ${belowCaption.querySelector('.line2').value.toString()}`;
 
         belowCaption.parentNode.removeChild(belowCaption);
 
         resize(thisCaption.querySelector('.line2'));
-
       }
 
       function generateDownloadCaptions() {
