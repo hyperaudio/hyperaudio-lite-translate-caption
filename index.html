@@ -41,7 +41,7 @@
     </div>
 
     <div class="captions-screen" style="display:none">
-      <video id="hyperplayer" class="hyperaudio-player" src="https://lab.hyperaud.io/mozfest2021/videos/lance-weiler-interview-final.mp4" type="audio/mp4" controls preload="metadata">
+      <video id="hyperplayer" class="hyperaudio-player" src="/video/nmf1.mp4" type="audio/mp4" controls preload="metadata">
       </video>
     </div>
 
@@ -98,7 +98,7 @@
         let translatedText = transtext.value;
 
         originalSentences = originalText.replace(/([.?!])\s*(?=[A-Z])/g, "$1|").split("|");
-        translatedSentences = translatedText.replace(/([.?!])\s*(?=[A-Z])/g, "$1|").split("|");
+        translatedSentences = translatedText.replace(/([.?!])\s*(?=[¿A-Z])/g, "$1|").split("|");
 
         originalSentences.forEach((sentence, index) => {
 
