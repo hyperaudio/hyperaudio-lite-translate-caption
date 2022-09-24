@@ -85,6 +85,10 @@
       $ = document.querySelector.bind(document);
       $$ = document.querySelectorAll.bind(document);
 
+      // set filename
+
+      $('#download-vtt').setAttribute('download',$('#hyperplayer').getAttribute('src'));
+      $('#download-srt').setAttribute('download',$('#hyperplayer').getAttribute('src'));
 
       $('.prepare-data').addEventListener("click", prepareData);
 
